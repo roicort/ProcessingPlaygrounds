@@ -9,7 +9,7 @@
      float[] point1 = new float[2];
      float[] point2 = new float[2];
 
-    void drawLines(float alpha1, float alpha2, float len, float points){
+     void drawLines(float alpha1, float alpha2, float len, float points){
        
       float step = len/points;
       float theta1 = alpha1*(PI/180);
@@ -28,5 +28,5 @@
          stroke(random(0, 255), random(0, 255), random(0, 255));
          line(point1[0],point1[1],point2[0],point2[1]);
 
-       }
-     }
+         }
+      }
