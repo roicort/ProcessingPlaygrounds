@@ -1,32 +1,30 @@
 # Mesh
 
-     float len;
-     float points;
-     float alpha1;
-     float alpha2;
+      // alpha1 - angle of first line
+      // alpha2 - angle of second line
+      // len - lenght of figure
+      // points - number of points in line
 
-     float[] origin = new float[2];
-     float[] point1 = new float[2];
-     float[] point2 = new float[2];
-
-     void drawLines(float alpha1, float alpha2, float len, float points){
-       
-      float step = len/points;
-      float theta1 = alpha1*(PI/180);
-      float theta2 = alpha2*(PI/180);
-       
-      for (int i = 0; i < points+1; i = i+1) {
-
-         steps = i*step;
-
-         point1[0]= origin[0]+cos(theta1)*steps;
-         point1[1]= origin[1]-sin(theta1)*steps;
-
-         point2[0]= origin[0]+cos(theta2)*(len-steps);
-         point2[1]= origin[1]-sin(theta2)*(len-steps);
+      void drawLines(alpha1, alpha2, len, points){
          
-         stroke(random(0, 255), random(0, 255), random(0, 255));
-         line(point1[0],point1[1],point2[0],point2[1]);
+      step = len/points; // separation between points in line
+      theta1 = alpha1*(PI/180); // aplha1 in degrees to theta1 in rads
+      theta2 = alpha2*(PI/180); // aplha2 in degrees to theta2 in rads
 
+      for (int i = 0; i < points+1; i = i+1) { // main loop for all points
+
+         steps = i*step; //number of steps
+
+         // from first to last point
+         point1[0]= origin[0]+cos(theta1)*steps; 
+         point1[1]= origin[1]-sin(theta1)*steps; 
+         // from last to first point
+         point2[0]= origin[0]+cos(theta2)*(len-steps); 
+         point2[1]= origin[1]-sin(theta2)*(len-steps); 
+         
+         stroke(random(0, 255), random(0, 255), random(0, 255)); //chose random color
+         line(point1[0],point1[1],point2[0],point2[1]); // draw line from point1 to point2
          }
       }
+
+![Pseudocode](pseudocode.png)
