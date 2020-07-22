@@ -1,6 +1,7 @@
 
 import controlP5.*;
 ControlP5 controlP5;
+
 float len;
 float points;
 float alpha1;
@@ -10,8 +11,8 @@ float save;
 File selection;
 PGraphics pg;
 
-void setup()
-{
+void setup(){
+  
   fullScreen();  
   pg = createGraphics(width*4 , height*4);
   controlP5 = new ControlP5(this);
@@ -99,9 +100,7 @@ void drawLines(){
 }
 
 void controlEvent(ControlEvent theEvent) {
-
   if (theEvent.isController()) { 
-
     if (theEvent.getController().getName()=="Alpha1"){
       alpha1 =theEvent.getController().getValue();
       drawLines();
