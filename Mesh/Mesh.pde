@@ -91,10 +91,10 @@ void drawLines(){
     point1[1]= origin[1]-sin(theta1)*aux;
     point2[0]= origin[0]+cos(theta2)*(len-aux);
     point2[1]= origin[1]-sin(theta2)*(len-aux);
-    pg.stroke(random(0, 255), random(0, 255), random(0, 255));
-    pg.line(point1[0]*4,point1[1]*4,point2[0]*4,point2[1]*4);
     stroke(random(0, 255), random(0, 255), random(0, 255));
     line(point1[0],point1[1],point2[0],point2[1]);
+    pg.stroke(random(0, 255), random(0, 255), random(0, 255));
+    pg.line(point1[0]*4,point1[1]*4,point2[0]*4,point2[1]*4);
   }
     pg.endDraw();
 }
