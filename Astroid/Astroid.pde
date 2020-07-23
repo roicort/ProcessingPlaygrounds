@@ -5,6 +5,8 @@ ControlP5 controlP5;
 float size;
 float points;
 boolean selected = false;
+float drawellipse;
+float ellipsepoint;
 
 float save;
 float[] origin = new float[2];
@@ -22,7 +24,7 @@ void setup(){
   float posY = height-(height/6);
   
   controlP5.addSlider("Size")
- .setRange(0,min((width),(height))-50)
+ .setRange(0,min((width),(height))/1.5)
  .setValue(min((width),(height))/2)
  .setPosition(posX,posY)
  .setSize(200,20)
@@ -37,13 +39,30 @@ void setup(){
  .setColorValue(0xffdddddd)
  .setColorLabel(0xffdddddd);
  
+  controlP5.addSlider("EllipsePoint")
+ .setRange(1,4)
+ .setValue(2)
+ .setPosition(posX,posY)
+ .setSize(200,20)
+ .setColorValue(0xffdddddd)
+ .setColorLabel(0xffdddddd)
+ .hide();
+ 
+ controlP5.addToggle("DrawEllipse")
+ .setPosition(posX,posY-40)
+ .setSize(20,20)
+ .setColorValue(0xffdddddd)
+ .setColorLabel(0xffdddddd)
+ .hide();
+
   controlP5.addButton("Reset")
  .setPosition(posX,posY+60)
  .setSize(200,20);
  
   controlP5.addButton("Render")
  .setPosition(posX,posY+90)
- .setSize(200,20);
+ .setSize(200,20)
+ .hide();
 }
 
 void saveFile(File selection) {
@@ -56,7 +75,6 @@ void saveFile(File selection) {
 
 void draw(){
   if (!selected){
-    
   background(255);
   
   origin[0] = width/2;
@@ -68,6 +86,7 @@ void draw(){
   if ((mouseX > origin[0]-size) && (mouseX < origin[0] + size) && (mouseY > origin[1] - size) && (mouseY < origin[1]+size)){  
     circle(mouseX, origin[1],5);
     circle(origin[0], mouseY,5);
+    line(mouseX, origin[1],origin[0], mouseY);
     }
   }
 }
@@ -80,12 +99,29 @@ void mouseClicked() {
       stair[3] = mouseY;
       selected = true;
       drawLines(stair);
+      controlP5.getController("Size").hide();
+      controlP5.getController("Points").show();
+      controlP5.getController("Render").show();
+      controlP5.getController("DrawEllipse").show();
   }
 }
 
 float pitagoras(float a, float h){
   float b = sqrt(pow(h,2)-pow(a,2));
   return b;
+}
+
+float[] midpoint(float x1, float y1, float x2, float y2, float ellipsepoint){ 
+  float[] mid = new float[2];
+  
+  float d = dist(x1,y1,x2,y2)/ellipsepoint;
+  float D = dist(x1,y1,x2,y2);
+  mid[0] = x1 + ((d/D) * (x2-x1));
+  mid[1] = y1 + ((d/D) * (y2-y1));
+  
+  fill(255,0,0);
+  circle(mid[0],mid[1],5);
+  return mid;
 }
 
 void drawLines(float[] stair){
@@ -98,7 +134,7 @@ void drawLines(float[] stair){
   line(origin[0]-size,origin[1],origin[0]+size,origin[1]);
   line(origin[0],origin[1]+size,origin[0],origin[1]-size);
   
-  float stepsizeY = (origin[1]-stair[3])/points;
+  float stepsizeY = (size)/points;
   
   for(int i=0; i < points+1; i = i+1){
     
@@ -119,9 +155,22 @@ void drawLines(float[] stair){
     line(origin[0],c3,c4,origin[1]);
     line(origin[0],c1,c4,origin[1]);
     line(origin[0],c3,c2,origin[1]);
+    
+    //midpoint(origin[0],c1,c2,origin[1]);
+    //midpoint(origin[0],c3,c4,origin[1]);
+    //midpoint(origin[0],c1,c4,origin[1]);
+    //midpoint(origin[0],c3,c2,origin[1]);
+    
+    if (drawellipse == 1){
+    midpoint(origin[0],c1,c2,origin[1],ellipsepoint);
+    midpoint(origin[0],c3,c4,origin[1],ellipsepoint);
+    midpoint(origin[0],c1,c4,origin[1],ellipsepoint);
+    midpoint(origin[0],c3,c2,origin[1],ellipsepoint);
+    }
+    
   }
   
-    float stepsizeX = (origin[0]-stair[0])/points;
+    float stepsizeX = (size)/points;
   
     for(int i=0; i < points+1; i = i+1){
       
@@ -137,11 +186,19 @@ void drawLines(float[] stair){
     //circle(origin[0],c2,5);
     //circle(c3,origin[1],5);
     //circle(origin[0],c4,5);
+    
     line(c1,origin[1],origin[0],c2);
     line(c3,origin[1],origin[0],c4);
     line(c1,origin[1],origin[0],c4);
-    line(origin[0],c2,c3,origin[1]);
-    }
+    line(c3,origin[1],origin[0],c2);
+    /*
+    if (drawellipse == 1){
+    midpoint(c1,origin[1],origin[0],c2,ellipsepoint);
+    midpoint(c3,origin[1],origin[0],c4,ellipsepoint);
+    midpoint(c1,origin[1],origin[0],c4,ellipsepoint);
+    midpoint(c3,origin[1],origin[0],c2,ellipsepoint);
+    }*/
+  }
 }
 
 void controlEvent(ControlEvent theEvent) {
@@ -149,11 +206,32 @@ void controlEvent(ControlEvent theEvent) {
     if (theEvent.getController().getName()=="Size"){
       size =theEvent.getController().getValue()/2;
     }    
+    if (theEvent.getController().getName()=="DrawEllipse"){
+      drawellipse = theEvent.getController().getValue();
+      if(drawellipse==1){
+        controlP5.getController("EllipsePoint").show();
+      }else{
+        controlP5.getController("EllipsePoint").hide();
+      }
+      
+      drawLines(stair);
+    }
+    if (theEvent.getController().getName()=="EllipsePoint"){
+      ellipsepoint = theEvent.getController().getValue();
+      drawLines(stair);
+    }    
     if (theEvent.getController().getName()=="Points"){
       points =theEvent.getController().getValue();
+      drawLines(stair);
     }    
     if (theEvent.getController().getName()=="Reset"){
-       selected = false;
+      selected = false;
+      controlP5.getController("Size").show();
+      controlP5.getController("Points").show();
+      controlP5.getController("Render").hide();
+      controlP5.getController("DrawEllipse").hide();
+      controlP5.getController("EllipsePoint").hide();
+      controlP5.getController("DrawEllipse").setValue(0);
     }
     if (theEvent.getController().getName()=="Render"){
       selectOutput("Select a file to write to:", "saveFile");
