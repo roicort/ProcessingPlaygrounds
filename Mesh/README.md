@@ -26,5 +26,3 @@
          line(point1[0],point1[1],point2[0],point2[1]); // draw line from point1 to point2
          }
       }
-
-![Pseudocode](pseudocode.png)
