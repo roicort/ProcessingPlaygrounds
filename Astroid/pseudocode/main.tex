@@ -1,0 +1,49 @@
+\documentclass[letter,10pt]{article}
+\usepackage{algorithm} 
+\usepackage{algpseudocode} 
+\begin{document} 
+
+Variables de entrada:
+\begin{itemize}
+	\item  escalera = trazo inicial
+	\item  origen - origin point
+	\item  tamaño - tamaño de las línas perpendiculares
+	\item  puntos - tamaño de los puntos
+	\item tamañoelipse - tamaño del elipse
+\end{itemize}
+
+\begin{algorithm}
+	\caption{Figura 2} 
+	\begin{algorithmic}[1]
+
+		\State Trazar líneas perpendiculares
+		\State H = hipotenusa(escalera); // Calcular la hipotenusa del triángulo formado por la escalera (Magnitud inicial)
+		\State stepsize = tamaño/points; // Separación entre líneas
+
+		\For {$(i = 0; i < puntos+1; i = i+1)$} // Para cada punto
+
+			\State // Calcular nuevo triángulo en Y
+			\State  C1 = (stepsize*i);   // Actualizar tamaño de Cateto 1 (En Y)
+			\State  C2 = pitágoras(C1,H); // Calcular Cateto 2 dado C1 y H
+			\State  Reflejar triángulo
+			\State 	Trazar Hipotenusas de los nuevos dos tríangulos
+			
+			\If {(dibujarElipse)} //Decidir si dibujar Elipse
+				\State Calcular un punto sobre las Hipotenusas anteriores a una distancia de tamañoelipse desde uno de los estremos de las Hipotenusas
+				\State Dibujar puntos anteriores
+			\EndIf
+
+			\State // Calcular nuevo triángulo en X
+			\State  C1 = (stepsize*i);   // Actualizar tamaño de Cateto 1 (En X)
+			\State  C2 = pitágoras(C1,H); // Calcular Cateto 2 dado C1 y H
+			\State  Reflejar triángulo
+			\State 	Trazar Hipotenusas de los nuevos dos tríangulos
+			
+			\If {(dibujarElipse)} //Decidir si dibujar Elipse
+				\State Calcular un punto sobre las Hipotenusas anteriores a una distancia de tamañoelipse desde uno de los estremos de las Hipotenusas
+				\State Dibujar puntos anteriores
+			\EndIf
+		\EndFor
+	\end{algorithmic} 
+\end{algorithm}
+\end{document}
