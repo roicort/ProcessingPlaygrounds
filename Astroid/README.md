@@ -14,10 +14,9 @@
         
         float stepsize = (size)/points; //Separation between lines
         
-        for(int i=0; i < points; i = i+1){
+        for(int i=0; i < points; i = i+1){ //For every point
         
           //Calculate points in triangle for Y
-          
           float a = (stepsize*i);   //Calculate Cathetus 1
           float c1 = origin[1] - a; //Point in Y axe
           float b = pitagoras(a,h); //Calculate Cathetus 2
@@ -32,15 +31,16 @@
           line(origin[0],c3,c2,origin[1]);
           
           if (drawellipse == 1){ //Decide if draw Ellipse
+          
           //Calculate and draw points in previous lines
           midpoint(c2,origin[1],origin[0],c1,ellipsepoint);
           midpoint(c4,origin[1],origin[0],c3,ellipsepoint);
           midpoint(c4,origin[1],origin[0],c1,ellipsepoint);
           midpoint(c2,origin[1],origin[0],c3,ellipsepoint);
+          
           }
 
           //Calculate points in triangle for X
-
           float a = (stepsize*i);   //Calculate Cathetus 1
           float c1 = origin[0] - a; //Point in X axe
           float b = pitagoras(a,h); //Calculate Cathetus 2
@@ -55,10 +55,12 @@
           line(c3,origin[1],origin[0],c2);
         
           if (drawellipse == 1){ //Decide if draw Ellipse
+          
           //Calculate and draw points in previous lines
           midpoint(c1,origin[1],origin[0],c2,ellipsepoint);
           midpoint(c3,origin[1],origin[0],c4,ellipsepoint);
           midpoint(c1,origin[1],origin[0],c4,ellipsepoint);
           midpoint(c3,origin[1],origin[0],c2,ellipsepoint);
+          
           }
       }
