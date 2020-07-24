@@ -32,11 +32,17 @@
           
           if (drawellipse == 1){ //Decide if draw Ellipse
           
-          //Calculate and draw points in previous lines
-          calcpointinline(c2,origin[1],origin[0],c1,ellipsepoint);
-          calcpointinline(c4,origin[1],origin[0],c3,ellipsepoint);
-          calcpointinline(c4,origin[1],origin[0],c1,ellipsepoint);
-          calcpointinline(c2,origin[1],origin[0],c3,ellipsepoint);
+          //Calculate points in previous lines
+          c1 = calcpointinline(c2,origin[1],origin[0],c1,ellipsepoint);
+          c2 = calcpointinline(c4,origin[1],origin[0],c3,ellipsepoint);
+          c3 = calcpointinline(c4,origin[1],origin[0],c1,ellipsepoint);
+          c4 = calcpointinline(c2,origin[1],origin[0],c3,ellipsepoint);
+          
+          //Draw previous points
+          point(np1);
+          point(np2);
+          point(np3);
+          point(np4);
           
           }
 
@@ -56,7 +62,7 @@
         
           if (drawellipse == 1){ //Decide if draw Ellipse
           
-          //Calculate and draw points in previous lines
+          //Calculate points in previous lines
           np1 = calcpointinline(c1,origin[1],origin[0],c2,ellipsepoint);
           np2 = calcpointinline(c3,origin[1],origin[0],c4,ellipsepoint);
           np3 = calcpointinline(c1,origin[1],origin[0],c4,ellipsepoint);
