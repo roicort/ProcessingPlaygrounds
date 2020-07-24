@@ -18,6 +18,8 @@ PGraphics pg;
 void setup(){
   
   fullScreen();  
+  fill(0,0,0);
+  pg = createGraphics(width*4, height*4);
   controlP5 = new ControlP5(this);
   
   float posX = width-(width/5);
@@ -59,17 +61,18 @@ void setup(){
  .setPosition(posX,posY+60)
  .setSize(200,20);
  
-  controlP5.addButton("Save")
+  controlP5.addButton("Render")
  .setPosition(posX,posY+90)
  .setSize(200,20)
  .hide();
 }
 
 void saveFile(File selection) {
+  PGdrawLinesHighRes(stair);
   if (selection == null) {
     println("Window was closed or the user hit cancel.");
   } else {
-    save(selection.getAbsolutePath()+".png");
+    pg.save(selection.getAbsolutePath()+".png");
   }
 }
 
@@ -104,7 +107,7 @@ void mouseClicked() {
       drawLines(stair);
       controlP5.getController("Size").hide();
       controlP5.getController("Points").show();
-      controlP5.getController("Save").show();
+      controlP5.getController("Render").show();
       controlP5.getController("DrawEllipse").show();
   }
 }
@@ -124,6 +127,19 @@ float[] midpoint(float x1, float y1, float x2, float y2, float ellipsepoint){
   fill(255,0,0);
   circle(mid[0],mid[1],5);
   fill(0,0,0);
+  return mid;
+}
+
+float[] PGmidpoint(float x1, float y1, float x2, float y2, float ellipsepoint){ 
+  float[] mid = new float[2];
+  float D = dist(x1,y1,x2,y2);
+  float d = D/ellipsepoint;
+  mid[0] = x1 + ((d/D) * (x2-x1));
+  mid[1] = y1 + ((d/D) * (y2-y1));
+  
+  pg.fill(255,0,0);
+  pg.circle(mid[0],mid[1],5);
+  pg.fill(0,0,0);
   return mid;
 }
 
@@ -199,6 +215,82 @@ void drawLines(float[] stair){
   }
 }
 
+void PGdrawLinesHighRes(float[] stair){
+  
+  pg.beginDraw();
+  pg.scale(4);
+  float h = dist(stair[0], stair[1], stair[2], stair[3]);
+  
+  pg.background(255);
+  pg.stroke(0,0,0);
+  
+  pg.line(origin[0]-size,origin[1],origin[0]+size,origin[1]);
+  pg.line(origin[0],origin[1]+size,origin[0],origin[1]-size);
+  
+  float stepsizeY = (size)/points;
+  
+  for(int i=0; i < points; i = i+1){
+    
+    float a = (stepsizeY*i);
+    float c1 = origin[1] - a;
+    float b = pitagoras(a,h);
+    float c2 = origin[0] + b;
+    
+    float c3 = origin[1] + a;
+    float c4 = origin[0] - b;
+    
+    //circle(origin[0],c1,5);
+    //circle(c2,origin[1],5);
+    //circle(origin[0],c3,5);
+    //circle(c4,origin[1],5);
+    
+    pg.line(origin[0],c1,c2,origin[1]);
+    pg.line(origin[0],c3,c4,origin[1]);
+    pg.line(origin[0],c1,c4,origin[1]);
+    pg.line(origin[0],c3,c2,origin[1]);
+    
+    if (drawellipse == 1){
+    PGmidpoint(c2,origin[1],origin[0],c1,ellipsepoint);
+    PGmidpoint(c4,origin[1],origin[0],c3,ellipsepoint);
+    PGmidpoint(c4,origin[1],origin[0],c1,ellipsepoint);
+    PGmidpoint(c2,origin[1],origin[0],c3,ellipsepoint);
+    }
+    
+  }
+  
+    float stepsizeX = (size)/points;
+  
+    for(int i=0; i < points; i = i+1){
+      
+      float a = (stepsizeX*i);
+      float c1 = origin[0] - a;
+      float b = pitagoras(a,h);
+      float c2 = origin[1] - b;
+      
+      float c3 = origin[0] + a;
+      float c4 = origin[1] + b;
+        
+    //circle(c1,origin[1],5);
+    //circle(origin[0],c2,5);
+    //circle(c3,origin[1],5);
+    //circle(origin[0],c4,5);
+
+    pg.line(c1,origin[1],origin[0],c2);
+    pg.line(c3,origin[1],origin[0],c4);
+    pg.line(c1,origin[1],origin[0],c4);
+    pg.line(c3,origin[1],origin[0],c2);
+  
+    if (drawellipse == 1){
+    PGmidpoint(c1,origin[1],origin[0],c2,ellipsepoint);
+    PGmidpoint(c3,origin[1],origin[0],c4,ellipsepoint);
+    PGmidpoint(c1,origin[1],origin[0],c4,ellipsepoint);
+    PGmidpoint(c3,origin[1],origin[0],c2,ellipsepoint);
+    }
+  }
+  pg.scale(0);
+  pg.endDraw();
+}
+
 void controlEvent(ControlEvent theEvent) {
   if (theEvent.isController()) { 
     if (theEvent.getController().getName()=="Size"){
@@ -229,7 +321,7 @@ void controlEvent(ControlEvent theEvent) {
       controlP5.getController("EllipsePoint").hide();
       controlP5.getController("DrawEllipse").setValue(0);
     }
-    if (theEvent.getController().getName()=="Save"){
+    if (theEvent.getController().getName()=="Render"){
       selectOutput("Select a file to write to:", "saveFile");
       saveFile(selection);
       selection = null;
