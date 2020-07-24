@@ -33,10 +33,10 @@
           if (drawellipse == 1){ //Decide if draw Ellipse
           
           //Calculate and draw points in previous lines
-          midpoint(c2,origin[1],origin[0],c1,ellipsepoint);
-          midpoint(c4,origin[1],origin[0],c3,ellipsepoint);
-          midpoint(c4,origin[1],origin[0],c1,ellipsepoint);
-          midpoint(c2,origin[1],origin[0],c3,ellipsepoint);
+          calcpointinline(c2,origin[1],origin[0],c1,ellipsepoint);
+          calcpointinline(c4,origin[1],origin[0],c3,ellipsepoint);
+          calcpointinline(c4,origin[1],origin[0],c1,ellipsepoint);
+          calcpointinline(c2,origin[1],origin[0],c3,ellipsepoint);
           
           }
 
@@ -57,10 +57,32 @@
           if (drawellipse == 1){ //Decide if draw Ellipse
           
           //Calculate and draw points in previous lines
-          midpoint(c1,origin[1],origin[0],c2,ellipsepoint);
-          midpoint(c3,origin[1],origin[0],c4,ellipsepoint);
-          midpoint(c1,origin[1],origin[0],c4,ellipsepoint);
-          midpoint(c3,origin[1],origin[0],c2,ellipsepoint);
+          np1 = calcpointinline(c1,origin[1],origin[0],c2,ellipsepoint);
+          np2 = calcpointinline(c3,origin[1],origin[0],c4,ellipsepoint);
+          np3 = calcpointinline(c1,origin[1],origin[0],c4,ellipsepoint);
+          np4 = calcpointinline(c3,origin[1],origin[0],c2,ellipsepoint);
+          
+          //Draw previous points
+          point(np1);
+          point(np2);
+          point(np3);
+          point(np4);
           
           }
+      }
+      
+      //Auxiliar Functions
+      
+      // Point 1 = (x1,y1) 
+      // Point 2 = (x2,y2)
+      // ellipsepoint - Ratio of new point in between
+      
+      float[] calcpointinline(float x1, float y1, float x2, float y2, float ellipsepoint){ 
+      
+        float D = dist(x1,y1,x2,y2); // Distance between points
+        float d = D/ellipsepoint;    // Distance of new point
+        point[0] = x1 + ((d/D) * (x2-x1)); // Calculate first component of new point
+        point[1] = y1 + ((d/D) * (y2-y1)); // Calculate second component of new point
+        return point; // return new point
+        
       }
