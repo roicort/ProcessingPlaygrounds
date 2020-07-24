@@ -59,7 +59,7 @@ void setup(){
  .setPosition(posX,posY+60)
  .setSize(200,20);
  
-  controlP5.addButton("Render")
+  controlP5.addButton("Save")
  .setPosition(posX,posY+90)
  .setSize(200,20)
  .hide();
@@ -89,6 +89,9 @@ void draw(){
     line(mouseX, origin[1],origin[0], mouseY);
     }
   }
+  else{
+    drawLines(stair);
+    }
 }
 
 void mouseClicked() {
@@ -101,7 +104,7 @@ void mouseClicked() {
       drawLines(stair);
       controlP5.getController("Size").hide();
       controlP5.getController("Points").show();
-      controlP5.getController("Render").show();
+      controlP5.getController("Save").show();
       controlP5.getController("DrawEllipse").show();
   }
 }
@@ -113,14 +116,14 @@ float pitagoras(float a, float h){
 
 float[] midpoint(float x1, float y1, float x2, float y2, float ellipsepoint){ 
   float[] mid = new float[2];
-  
-  float d = dist(x1,y1,x2,y2)/ellipsepoint;
   float D = dist(x1,y1,x2,y2);
+  float d = D/ellipsepoint;
   mid[0] = x1 + ((d/D) * (x2-x1));
   mid[1] = y1 + ((d/D) * (y2-y1));
   
   fill(255,0,0);
   circle(mid[0],mid[1],5);
+  fill(0,0,0);
   return mid;
 }
 
@@ -136,7 +139,7 @@ void drawLines(float[] stair){
   
   float stepsizeY = (size)/points;
   
-  for(int i=0; i < points+1; i = i+1){
+  for(int i=0; i < points; i = i+1){
     
     float a = (stepsizeY*i);
     float c1 = origin[1] - a;
@@ -156,23 +159,18 @@ void drawLines(float[] stair){
     line(origin[0],c1,c4,origin[1]);
     line(origin[0],c3,c2,origin[1]);
     
-    //midpoint(origin[0],c1,c2,origin[1]);
-    //midpoint(origin[0],c3,c4,origin[1]);
-    //midpoint(origin[0],c1,c4,origin[1]);
-    //midpoint(origin[0],c3,c2,origin[1]);
-    
     if (drawellipse == 1){
-    midpoint(origin[0],c1,c2,origin[1],ellipsepoint);
-    midpoint(origin[0],c3,c4,origin[1],ellipsepoint);
-    midpoint(origin[0],c1,c4,origin[1],ellipsepoint);
-    midpoint(origin[0],c3,c2,origin[1],ellipsepoint);
+    midpoint(c2,origin[1],origin[0],c1,ellipsepoint);
+    midpoint(c4,origin[1],origin[0],c3,ellipsepoint);
+    midpoint(c4,origin[1],origin[0],c1,ellipsepoint);
+    midpoint(c2,origin[1],origin[0],c3,ellipsepoint);
     }
     
   }
   
     float stepsizeX = (size)/points;
   
-    for(int i=0; i < points+1; i = i+1){
+    for(int i=0; i < points; i = i+1){
       
       float a = (stepsizeX*i);
       float c1 = origin[0] - a;
@@ -186,18 +184,18 @@ void drawLines(float[] stair){
     //circle(origin[0],c2,5);
     //circle(c3,origin[1],5);
     //circle(origin[0],c4,5);
-    
+
     line(c1,origin[1],origin[0],c2);
     line(c3,origin[1],origin[0],c4);
     line(c1,origin[1],origin[0],c4);
     line(c3,origin[1],origin[0],c2);
-    /*
+  
     if (drawellipse == 1){
     midpoint(c1,origin[1],origin[0],c2,ellipsepoint);
     midpoint(c3,origin[1],origin[0],c4,ellipsepoint);
     midpoint(c1,origin[1],origin[0],c4,ellipsepoint);
     midpoint(c3,origin[1],origin[0],c2,ellipsepoint);
-    }*/
+    }
   }
 }
 
@@ -218,22 +216,20 @@ void controlEvent(ControlEvent theEvent) {
     }
     if (theEvent.getController().getName()=="EllipsePoint"){
       ellipsepoint = theEvent.getController().getValue();
-      drawLines(stair);
     }    
     if (theEvent.getController().getName()=="Points"){
       points =theEvent.getController().getValue();
-      drawLines(stair);
     }    
     if (theEvent.getController().getName()=="Reset"){
       selected = false;
       controlP5.getController("Size").show();
       controlP5.getController("Points").show();
-      controlP5.getController("Render").hide();
+      controlP5.getController("Save").hide();
       controlP5.getController("DrawEllipse").hide();
       controlP5.getController("EllipsePoint").hide();
       controlP5.getController("DrawEllipse").setValue(0);
     }
-    if (theEvent.getController().getName()=="Render"){
+    if (theEvent.getController().getName()=="Save"){
       selectOutput("Select a file to write to:", "saveFile");
       saveFile(selection);
       selection = null;
