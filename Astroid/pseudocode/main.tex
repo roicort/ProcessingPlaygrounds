@@ -50,7 +50,7 @@ Variables de entrada:
 	\caption{Calcular puntos en H} 
 	\begin{algorithmic}[1]
         \State D = dist(punto1.X,punto1.Y,punto2.X,punto2.Y); // Distancia entre los extremos de la Hipotenusa
-        \State d = Distancia del nuevo punto
+        \State d = Distancia del nuevo punto (tamañoelipse)
         \State nuevopunto.X = punto1.X + ((d/D) * (punto2.X-punto1.X)); // Calcular la componente en X del nuevo punto
         \State nuevopunto.Y = punto1.Y + ((d/D) * (punto2.Y-punto1.Y)); // Calcular la componente en Y del nuevo punto
         \State return nuevopunto; // regresar el nuevo punto
