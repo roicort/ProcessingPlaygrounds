@@ -2,10 +2,14 @@
 class Particle{
   float posX;
   float posY;
+  float pposX;
+  float pposY;
   float velx;
   float vely;
   
   Particle(float x, float y){
+  pposX=x;
+  pposY=y;
   posX=x;
   posY=y;
   velx = random(-2, 2);
@@ -13,9 +17,10 @@ class Particle{
   }
   
   void display(){
-    noStroke();
-    fill(0,0,0,80);
-    ellipse(posX,posY,5,5);}
+    line(pposX,pposY,posX,posY);
+    pposX = posX;
+    pposY = posY;
+  }
     
   boolean IsIN(){
     boolean True = true;
@@ -30,8 +35,9 @@ class Particle{
     
     
   void move(){
-    velx += map(noise(velx * 0.005, vely * 0.005, millis() * 0.001), 0, 1, -1, 1);
-    vely += map(noise(vely * 0.005, velx * 0.005, millis() * 0.001), 0, 1, -1, 1);
+    velx += map(noise( millis()), 0, 1, -1, 1);
+    vely += map(noise( millis()), 0, 1, -1, 1);
+    println(velx,vely);
     posX += velx;
     posY += vely;
   }}

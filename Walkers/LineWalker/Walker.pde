@@ -2,10 +2,14 @@
 class Particle{
   float posX;
   float posY;
+  float pposX;
+  float pposY;
   float velx;
   float vely;
   
   Particle(float x, float y){
+  pposX=x;
+  pposY=y;
   posX=x;
   posY=y;
   velx = random(-2, 2);
@@ -13,9 +17,10 @@ class Particle{
   }
   
   void display(){
-    noStroke();
-    fill(0,0,0,80);
-    ellipse(posX,posY,5,5);}
+    line(pposX,pposY,posX,posY);
+    pposX = posX;
+    pposY = posY;
+  }
     
   boolean IsIN(){
     boolean True = true;
