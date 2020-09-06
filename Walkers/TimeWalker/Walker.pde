@@ -8,12 +8,14 @@ class Particle{
   Particle(float x, float y){
   posX=x;
   posY=y;
+  velx = random(-2, 2);
+  vely = random(-2, 2);
   }
   
   void display(){
     noStroke();
-    fill(0,0,0,10);
-    ellipse(posX,posY,10,10);}
+    fill(0,0,0,40);
+    ellipse(posX,posY,5,5);}
     
   boolean IsIN(){
     boolean True = true;
@@ -26,9 +28,10 @@ class Particle{
        return True;}
   }
     
+    
   void move(){
-    velx = velx+random(-0.25,0.25);
-    vely = vely+random(-0.25,0.25);
-    posX = posX + velx;
-    posY = posY + vely;   
+    velx += map(noise(velx * 0.005, vely * 0.005, millis() * 0.001), 0, 1, -1, 1);
+    vely += map(noise(vely * 0.005, velx * 0.005, millis() * 0.001), 0, 1, -1, 1);
+    posX += velx;
+    posY += vely;
   }}

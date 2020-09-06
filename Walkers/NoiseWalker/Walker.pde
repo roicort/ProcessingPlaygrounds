@@ -18,14 +18,16 @@ class Particle{
     ellipse(posX,posY,10,10);}
     
   boolean IsIN(){
-    boolean state = true;
-    if((posX> width) || (posX < 0)){
-      return state;}
+    boolean True = true;
+    boolean False = false;
+    if((posX > width) || (posX < 0)){
+      return False;}
     if((posY > height) || (posY < 0)){
-      return state;}
+      return False;}
      else{
-       return state;}
+       return True;}
   }
+    
     
   void move(){
     velx += map(noise(posX * 0.005, posY * 0.005), 0, 1, -1, 1);
