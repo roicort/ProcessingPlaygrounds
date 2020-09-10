@@ -9,13 +9,14 @@ void setup() {
 void draw() {
   for(Particle ps : system){
     if(ps.IsIN()){
-    ps.display();
     ps.move();
+    ps.display();
     }
   }
   }
 void mousePressed(){
-  noiseSeed(10030);
+  system = new ArrayList<Particle>();
+  background(255);
   for(int i=0; i < 20; i++){
   system.add(new Particle(mouseX,mouseY));
   }

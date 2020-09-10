@@ -15,7 +15,9 @@ void draw() {
   }
   }
 void mousePressed(){
-  for(int i=0; i < 15; i++){
+  system = new ArrayList<Particle>();
+  background(255);
+  for(int i=0; i < 20; i++){
   system.add(new Particle(mouseX,mouseY));
   }
 }

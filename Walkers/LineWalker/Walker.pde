@@ -12,8 +12,8 @@ class Particle{
   pposY=y;
   posX=x;
   posY=y;
-  velx = random(-2, 2);
-  vely = random(-2, 2);
+  velx = random(-5, 5);
+  vely = random(-5, 5);
   }
   
   void display(){
@@ -35,8 +35,8 @@ class Particle{
     
     
   void move(){
-    velx += map(noise(velx * 0.005, vely * 0.005, millis() * 0.001), 0, 1, -1, 1);
-    vely += map(noise(vely * 0.005, velx * 0.005, millis() * 0.001), 0, 1, -1, 1);
+    velx += map(noise(posX * 0.002, posY * 0.002, millis() * 0.001), 0, 1, -1, 1);
+    vely += map(noise(posY * 0.002, posX * 0.002, millis() * 0.001), 0, 1, -1, 1);
     posX += velx;
     posY += vely;
   }}
