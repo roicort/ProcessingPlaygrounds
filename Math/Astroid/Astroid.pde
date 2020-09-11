@@ -68,10 +68,10 @@ void setup(){
 }
 
 void saveFile(File selection) {
-  PGdrawLinesHighRes(stair);
   if (selection == null) {
     println("Window was closed or the user hit cancel.");
   } else {
+    PGdrawLinesHighRes(stair);
     pg.save(selection.getAbsolutePath()+".png");
   }
 }

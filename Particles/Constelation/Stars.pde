@@ -1,15 +1,17 @@
 
-class Particle{
+class Star{
   float posX;
   float posY;
+  float Size;
   
-  Particle(float x, float y){
+  Star(float x, float y, float s){
     posX=x;
     posY=y;
+    Size=s;
   }
   
   void display(){
     fill(255);
-    ellipse(posX,posY,1,1);
+    circle(posX,posY,Size);
   }
 }
