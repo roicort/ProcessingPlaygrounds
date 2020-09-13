@@ -1,0 +1,60 @@
+\documentclass[letter,10pt]{article}
+\usepackage{algorithm} 
+\usepackage{algpseudocode} 
+\begin{document} 
+
+Variables de entrada:
+\begin{itemize}
+	\item  escalera = Trazo inicial
+	\item  tamaño - Tamaño de las línas perpendiculares
+	\item  puntos - Número de puntos
+	\item tamañoelipse - Tamaño de la elipse
+\end{itemize}
+
+\begin{algorithm}
+	\caption{Figura 2} 
+	\begin{algorithmic}[1]
+
+		\State Trazar líneas perpendiculares
+		\State H = hipotenusa(escalera); // Calcular la hipotenusa del triángulo formado por la escalera (Magnitud inicial)
+		\State stepsize = tamaño/points; // Separación entre líneas
+
+		\For {$(i = 0; i < puntos+1; i = i+1)$} // Para cada punto
+
+			\State // Calcular nuevo triángulo en Y
+			\State  C1 = (stepsize*i);   // Actualizar tamaño de Cateto 1 (En Y)
+			\State  C2 = pitágoras(C1,H); // Calcular Cateto 2 dado C1 y H
+			\State  Reflejar triángulo
+			\State 	Trazar Hipotenusas de los nuevos dos tríangulos
+			
+			\If {(dibujarElipse)} // Decidir si dibujar Elipse
+				\State Calcular un punto sobre las Hipotenusas anteriores a una distancia de tamañoelipse desde uno de los extremos de las Hipotenusas
+				\State Dibujar puntos anteriores
+			\EndIf
+
+			\State // Calcular nuevo triángulo en X
+			\State  C1 = (stepsize*i);   // Actualizar tamaño de Cateto 1 (En X)
+			\State  C2 = pitágoras(C1,H); // Calcular Cateto 2 dado C1 y H
+			\State  Reflejar triángulo
+			\State 	Trazar Hipotenusas de los nuevos dos tríangulos
+			
+			\If {(dibujarElipse)} // Decidir si dibujar Elipse
+				\State Calcular un punto sobre las Hipotenusas anteriores a una distancia de tamañoelipse desde uno de los extremos de las Hipotenusas
+				\State Dibujar puntos anteriores
+			\EndIf
+		\EndFor
+	\end{algorithmic} 
+\end{algorithm}
+
+\begin{algorithm}
+	\caption{Calcular puntos en H} 
+	\begin{algorithmic}[1]
+        \State D = dist(punto1.X,punto1.Y,punto2.X,punto2.Y); // Distancia entre los extremos de la Hipotenusa
+        \State d = Distancia del nuevo punto (tamañoelipse)
+        \State nuevopunto.X = punto1.X + ((d/D) * (punto2.X-punto1.X)); // Calcular la componente en X del nuevo punto
+        \State nuevopunto.Y = punto1.Y + ((d/D) * (punto2.Y-punto1.Y)); // Calcular la componente en Y del nuevo punto
+        \State return nuevopunto; // regresar el nuevo punto
+	\end{algorithmic} 
+\end{algorithm}
+
+\end{document}

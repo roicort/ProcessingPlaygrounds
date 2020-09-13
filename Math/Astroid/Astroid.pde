@@ -1,79 +1,7 @@
 
-import controlP5.*;
-ControlP5 controlP5;
-
-float size;
-float points;
-boolean selected = false;
-float drawellipse;
-float ellipsepoint;
-
-float save;
-float[] origin = new float[2];
-float[] stair = new float[4];
-
-File selection;
-PGraphics pg;
-
 void setup(){
-  
-  fullScreen();  
-  fill(0,0,0);
-  pg = createGraphics(width*4, height*4);
-  controlP5 = new ControlP5(this);
-  
-  float posX = width-(width/5);
-  float posY = height-(height/6);
-  
-  controlP5.addSlider("Size")
- .setRange(0,min((width),(height))/1.5)
- .setValue(min((width),(height))/2)
- .setPosition(posX,posY)
- .setSize(200,20)
- .setColorValue(0xffdddddd)
- .setColorLabel(0xffdddddd);
- 
-  controlP5.addSlider("Points")
- .setRange(5,20)
- .setValue(10)
- .setPosition(posX,posY+30)
- .setSize(200,20)
- .setColorValue(0xffdddddd)
- .setColorLabel(0xffdddddd);
- 
-  controlP5.addSlider("EllipsePoint")
- .setRange(1,4)
- .setValue(2)
- .setPosition(posX,posY)
- .setSize(200,20)
- .setColorValue(0xffdddddd)
- .setColorLabel(0xffdddddd)
- .hide();
- 
- controlP5.addToggle("DrawEllipse")
- .setPosition(posX,posY-40)
- .setSize(20,20)
- .setColorValue(0xffdddddd)
- .setColorLabel(0xffdddddd)
- .hide();
-
-  controlP5.addButton("Reset")
- .setPosition(posX,posY+60)
- .setSize(200,20);
- 
-  controlP5.addButton("Render")
- .setPosition(posX,posY+90)
- .setSize(200,20)
- .hide();
-}
-
-void saveFile(File selection) {
-  if (selection == null) {
-    println("Window was closed or the user hit cancel.");
-  } else {
-    PGdrawLinesHighRes(stair);
-    pg.save(selection.getAbsolutePath()+".png");
-  }
+  size(725,725);  
+  Control();
 }
 
 void draw(){
@@ -94,54 +22,19 @@ void draw(){
   }
   else{
     drawLines(stair);
-    }
+   }
 }
 
-void mouseClicked() {
-    if ((mouseX > origin[0]-size) && (mouseX < origin[0] + size) && (mouseY > origin[1] - size) && (mouseY < origin[1]+size) && (!selected)){  
-      stair[0] = mouseX;
-      stair[1] = origin[1];
-      stair[2] = origin[0];
-      stair[3] = mouseY;
-      selected = true;
-      drawLines(stair);
-      controlP5.getController("Size").hide();
-      controlP5.getController("Points").show();
-      controlP5.getController("Render").show();
-      controlP5.getController("DrawEllipse").show();
-  }
-}
+float size;
+float points;
+boolean selected = false;
+float drawellipse;
+float ellipsepoint;
 
-float pitagoras(float a, float h){
-  float b = sqrt(pow(h,2)-pow(a,2));
-  return b;
-}
+float[] origin = new float[2];
+float[] stair = new float[4];
 
-float[] midpoint(float x1, float y1, float x2, float y2, float ellipsepoint){ 
-  float[] mid = new float[2];
-  float D = dist(x1,y1,x2,y2);
-  float d = D/ellipsepoint;
-  mid[0] = x1 + ((d/D) * (x2-x1));
-  mid[1] = y1 + ((d/D) * (y2-y1));
-  
-  fill(255,0,0);
-  circle(mid[0],mid[1],5);
-  fill(0,0,0);
-  return mid;
-}
-
-float[] PGmidpoint(float x1, float y1, float x2, float y2, float ellipsepoint){ 
-  float[] mid = new float[2];
-  float D = dist(x1,y1,x2,y2);
-  float d = D/ellipsepoint;
-  mid[0] = x1 + ((d/D) * (x2-x1));
-  mid[1] = y1 + ((d/D) * (y2-y1));
-  
-  pg.fill(255,0,0);
-  pg.circle(mid[0],mid[1],5);
-  pg.fill(0,0,0);
-  return mid;
-}
+PGraphics pg;
 
 void drawLines(float[] stair){
   
@@ -215,8 +108,8 @@ void drawLines(float[] stair){
   }
 }
 
-void PGdrawLinesHighRes(float[] stair){
-  
+void PGSVG(float[] stair, String path){
+  pg = createGraphics(width*4, height*4,SVG,path);
   pg.beginDraw();
   pg.scale(4);
   float h = dist(stair[0], stair[1], stair[2], stair[3]);
@@ -289,42 +182,4 @@ void PGdrawLinesHighRes(float[] stair){
   }
   pg.scale(0);
   pg.endDraw();
-}
-
-void controlEvent(ControlEvent theEvent) {
-  if (theEvent.isController()) { 
-    if (theEvent.getController().getName()=="Size"){
-      size =theEvent.getController().getValue()/2;
-    }    
-    if (theEvent.getController().getName()=="DrawEllipse"){
-      drawellipse = theEvent.getController().getValue();
-      if(drawellipse==1){
-        controlP5.getController("EllipsePoint").show();
-      }else{
-        controlP5.getController("EllipsePoint").hide();
-      }
-      
-      drawLines(stair);
-    }
-    if (theEvent.getController().getName()=="EllipsePoint"){
-      ellipsepoint = theEvent.getController().getValue();
-    }    
-    if (theEvent.getController().getName()=="Points"){
-      points =theEvent.getController().getValue();
-    }    
-    if (theEvent.getController().getName()=="Reset"){
-      selected = false;
-      controlP5.getController("Size").show();
-      controlP5.getController("Points").show();
-      controlP5.getController("Save").hide();
-      controlP5.getController("DrawEllipse").hide();
-      controlP5.getController("EllipsePoint").hide();
-      controlP5.getController("DrawEllipse").setValue(0);
-    }
-    if (theEvent.getController().getName()=="Render"){
-      selectOutput("Select a file to write to:", "saveFile");
-      saveFile(selection);
-      selection = null;
-    }
-  }
 }
