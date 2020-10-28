@@ -8,8 +8,8 @@ class Particle{
   Particle(float x, float y){
   posX=x;
   posY=y;
-  velx = random(-2, 2);
-  vely = random(-2, 2);
+  velx = random(-1, 1);
+  vely = random(-1, 1);
   }
   
   void display(){

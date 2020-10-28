@@ -1,7 +1,7 @@
 ArrayList<Particle> system;
 
 void setup() {
-  size(512, 512);
+  size(1024, 1024);
   background(255);
   system = new ArrayList<Particle>();
 }
@@ -13,6 +13,7 @@ void draw() {
     ps.display();
     }
   }
+  saveFrame("output/movie####.jpg");
   }
 void mousePressed(){
   system = new ArrayList<Particle>();
