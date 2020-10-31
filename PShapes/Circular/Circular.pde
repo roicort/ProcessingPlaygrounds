@@ -8,13 +8,13 @@ PShape makefig() {
   fig = createShape();
   fig.beginShape();
   //fig.vertex(20, 80);
-  for(int i=0; i <50; i++){
+  for(int i=0; i <25; i++){
     float a = random(0,1) * 2 * PI;
     float x = R * cos(a) + width/2 ;
     float y = R * sin(a) + height/2;
-    //fill(0);
-    //circle(x,y,1);
-    //noFill();
+    fill(0);
+    //circle(x,y,2);
+    noFill();
     fig.vertex(x, y);
   }
   fig.endShape();
@@ -35,7 +35,8 @@ void draw() {
   noFill();
   fig = makefig();
   shape(fig);
-  //curve = Chaikin(fig, 1.0/4.0, 10,true);
+  //stroke(0,0,0);
+  //curve = Chaikin(fig, 1.0/4.0, 10,false);
   //shape(curve);
   endRecord();
   }
