@@ -13,7 +13,7 @@ void draw() {
     ps.move();
     }
   }
-  //saveFrame("output/movie####.png");
+  saveFrame("output/movie####.png");
   }
 void mousePressed(){
   for(int i=0; i < 10; i++){

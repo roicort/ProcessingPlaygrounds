@@ -37,7 +37,7 @@ void draw() {
       float c1 = (width/5)*i;
       float c2 = (height/5)*j;
       //println(c1,c2);
-      cir = makecircle(c1,c2,20);
+      cir = makecircle(c1,c2,25);
       shape(cir);
     }
   }

@@ -12,8 +12,8 @@ class Particle{
   
   void display(){
     noStroke();
-    fill(0,0,0,10);
-    ellipse(posX,posY,10,10);}
+    fill(0,0,0,8);
+    ellipse(posX,posY,15,15);}
     
   boolean IsIN(){
     boolean True = true;
