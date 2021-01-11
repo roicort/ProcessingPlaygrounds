@@ -67,7 +67,7 @@ void draw() {
     fill(r,g,b);
     rect(0,0,(width/6)+25,height);
     //background(cp.getColorValue());
-    if (mousePressed == true) {  
+    if (mousePressed == true && mouseX > (width/6)+25) {  
       W.size = slider.getValue();
       W.col=color(r,g,b,5);
       W.display(mouseX,mouseY);
