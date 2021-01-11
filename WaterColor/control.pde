@@ -9,6 +9,7 @@ Slider Bslider;
 Button button;
 Button savebutton;
 Button autobutton;
+Toggle walkersbutton;
 
 void Control(){
   ctrlp5 = new ControlP5(this);
@@ -19,6 +20,7 @@ void Control(){
   button = ctrlp5.addButton("Clear").setSize(200,25).setPosition(25,500);
   savebutton = ctrlp5.addButton("Save").setSize(200,25).setPosition(25,535);
   autobutton = ctrlp5.addButton("Auto").setSize(200,25).setPosition(25,570);
+  walkersbutton = ctrlp5.addToggle("Walkers").setSize(200,25).setPosition(25,605);
  }
  
  public void controlEvent(ControlEvent c) {
@@ -34,13 +36,13 @@ void Control(){
   if(c.isFrom(button)) {
     background(255);
     auto=false;
+    walkersbutton.setValue(0);
+    system = new ArrayList<water>();
   }
   if(c.isFrom(savebutton)) {
     saveFrame("saved/watercolor####.png");
-    background(255);
   }
   if(c.isFrom(autobutton)) {
     selectInput("Select a file to process:", "fileSelected");
-    background(255);
   }
 }
