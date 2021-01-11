@@ -13,7 +13,7 @@ class water {
   // of vertices original locations.
   ArrayList<PVector> original;
 
-  water(color col) {
+  water() {
     x = width/2;
     y = height/2; 
     // The "original" locations of the vertices make up a circle
@@ -23,8 +23,11 @@ class water {
       v.mult(100);
       original.add(v);
     }
+  }
+
+  void display(float xp, float yp,float size, color col) {
     
-    // Now make the PShape with those vertices
+    //Now make the PShape with those vertices
     s = createShape();
     s.beginShape();
     //s.noFill();
@@ -35,9 +38,6 @@ class water {
       s.vertex(v.x, v.y);
     }
     s.endShape(CLOSE);
-  }
-
-  void wiggle() {
     float xoff = 0;
     // Apply an offset to each vertex
     for (int i = 0; i < s.getVertexCount(); i++) {
@@ -54,9 +54,7 @@ class water {
     }
     // Increment perlin noise y value
     yoff += 0.02;
-  }
-
-  void display(float xp, float yp,float size) {
+    
     pushMatrix();
     translate(xp, yp);
     scale(size);

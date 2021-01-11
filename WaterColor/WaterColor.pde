@@ -1,37 +1,49 @@
 water W;
 float size;
 
-import controlP5.*;
-ControlP5 ctrlp5;
-ColorPicker cp;
-Slider slider;
+PImage img;
+
+color col;
+int r = 0;
+int g = 0;
+int b = 0;
+
+String file;
+Boolean auto = false;
 
 void setup() {
-  fullScreen();
+  //fullScreen();
+  size(1400,700);
   background(255);
-  color col = color(100,100,100,5);
-  W = new water(col);
-  ctrlp5 = new ControlP5(this);
-  cp = ctrlp5.addColorPicker("Color").setPosition(60, 100).setColorValue(col);
-  slider = ctrlp5.addSlider("Brush Size").setPosition(60,180).setMax(1.0).setValue(0.5);
+  W = new water();
+  Control();
 }
 
 void draw() {
-  //background(cp.getColorValue());
-  if (mousePressed == true) {    
-    W.wiggle();
-    W.display(mouseX,mouseY,slider.getValue());
+  if(auto){
+    img = loadImage(file);
+    int x = int(random(img.width));
+    int y = int(random(img.height));
+    color auxcol = img.get(x, y);
+    W.display((width/6)+25+x,y,0.05,auxcol);
+    rect(0,0,(width/6)+25,height);
+  }
+  else{
+    col = color(r,g,b,5);
+    fill(col);
+    rect(0,0,(width/6)+25,height);
+    //background(cp.getColorValue());
+    if (mousePressed == true) {    
+      W.display(mouseX,mouseY,slider.getValue(),col);
+     }
   }
 }
 
-public void controlEvent(ControlEvent c) {
-  // when a value change from a ColorPicker is received, extract the ARGB values
-  // from the controller's array value
-  if(c.isFrom(cp)) {
-    int r = int(c.getArrayValue(0));
-    int g = int(c.getArrayValue(1));
-    int b = int(c.getArrayValue(2));
-    color col = color(r,g,b,5);
-    W = new water(col);
+void fileSelected(File selection) {
+  if (selection == null) {
+    println("Window was closed or the user hit cancel.");
+  } else {
+    file = selection.getAbsolutePath();
+    auto=true;
   }
 }
