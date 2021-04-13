@@ -25,7 +25,6 @@ PShape makefig() {
 void setup() {
   size(512, 512);
   background(255);
-  //Control();
   noLoop();
   beginRecord(SVG, random(0,255)+".svg");
 }
